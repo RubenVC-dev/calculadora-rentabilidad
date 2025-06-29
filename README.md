@@ -1,47 +1,77 @@
-# Calculadora de Rentabilidad Mensual
+Calculadora de Rentabilidad Mensual
+Este programa de consola, escrito en Python y orientado a objetos, permite a pequeños negocios y autónomos analizar la rentabilidad de los servicios que ofrecen. El usuario puede registrar servicios, sus materiales asociados y precios, y calcular de forma estimada si cubren costes fijos y alcanzan un sueldo deseado.
 
-Este es un programa de consola escrito en Python que permite a pequeños negocios analizar la rentabilidad de los servicios o productos que ofrecen. El usuario puede registrar servicios, asociar los materiales que utiliza para cada uno, y calcular de forma estimada si su actividad mensual cubre los costes fijos y permite alcanzar un sueldo deseado.
+Características principales
+Registro de servicios con nombre, materiales usados y precio de venta.
 
-## Características principales
+    Materiales con coste total y cálculo automático del coste por servicio según número de usos.
 
-- Registro de servicios con su precio de venta.
-- Asociación de materiales a cada servicio, indicando coste y número de usos.
-- Cálculo automático del coste por servicio en materiales.
-- Análisis mensual según la frecuencia de trabajo y objetivos económicos.
-- Sugerencia de subida media de precios si no se alcanza el objetivo.
-- Generación de un informe detallado en formato `.txt`.
+    Visualización detallada de cada servicio: materiales, costes, beneficio y recomendaciones.
 
-## ¿Para quién es este programa?
+    Modificación de servicios existentes para corregir datos.
 
-Este proyecto está pensado para:
+    Cálculo del beneficio mensual total sumando todos los servicios registrados.
 
-- Autónomos y freelancers (peluquería, tatuadores, fotografía, etc.)
-- Emprendedores de servicios (clases, reparaciones, formación…)
-- Cualquier persona que ofrezca productos o servicios y quiera saber si le salen rentables.
+    Validaciones básicas para entradas numéricas.
 
-## Estructura del proyecto
+    Código estructurado en clases para facilitar mantenimiento y ampliaciones futuras.
 
-📂 rentabilidad/
-├── main.py # Menú principal
-├── registro.py # Registro de servicios y visualización
-├── calculo.py # Cálculo de rentabilidad y generación de informe
-├── datos.py # Lista compartida de servicios
-└── analisis_completo.txt # Informe generado tras el cálculo (opcional)
+    Limpieza de pantalla automática: cada vez que accedes a una opción del menú o función, la pantalla se limpia para mantener la interfaz clara y evitar acumulación de texto.
 
-## Cómo ejecutar
+Público objetivo
+Autónomos, freelancers y emprendedores que ofrecen servicios (peluquería, tatuadores, formación, etc.).
 
-1. Asegúrate de tener Python 3 instalado.
-2. Clona este repositorio o descarga los archivos.
-3. Ejecuta el programa desde la terminal:
+    Cualquier persona que quiera analizar la rentabilidad de su oferta y optimizar precios.
 
-python main.py
+Estructura actual del proyecto
+
+    rentabilidad/
+    ├── main.py           # Punto de entrada y menú principal
+    ├── modelos.py        # Definición de la clase Servicio y sus métodos
+    ├── registro.py       # Gestión de servicios (añadir, listar, modificar)
+    ├── utils.py          # Funciones auxiliares, como limpieza de pantalla
+    └── README.md         # Documentación del proyecto
+    Nota: Los archivos calculo.py y datos.py han sido integrados dentro de la lógica orientada a objetos para simplificar el proyecto.
+
+    Limpieza de pantalla
+    Para mejorar la experiencia de usuario en consola, se implementó la función limpiar_pantalla() en el archivo utils.py. Esta función detecta el sistema operativo y ejecuta el comando correcto para limpiar la consola (cls en Windows, clear en Linux/macOS).
+
+    Cada vez que se entra en un menú o submenú, o antes de pedir datos al usuario, se llama a esta función para evitar acumulación de texto y mantener la interfaz clara.
+
+Ejemplo de uso:
+
+    from utils import limpiar_pantalla
+
+    def añadir_servicio():
+        limpiar_pantalla()
+        print("=== Añadir nuevo servicio ===")
+        # resto de la función...
+
+Cómo ejecutar
+Asegúrate de tener Python 3.8 o superior instalado.
+
+    Clona o descarga este repositorio.
+
+    En la terminal, navega a la carpeta del proyecto y ejecuta:
+
+    python main.py
+    Sigue las instrucciones del menú para añadir, ver, modificar servicios y calcular beneficios.
+
+Mejoras futuras
+Persistencia de datos en archivos para conservar la información entre sesiones.
+
+    Generación de informes en .txt o formatos más amigables.
+
+    Implementación de interfaz gráfica para mayor usabilidad.
+
+    Incorporar análisis más avanzados, como gastos fijos y recomendaciones automáticas de subida de precios.
 
 Licencia
-Este proyecto se distribuye bajo la licencia MIT. Puedes usarlo, modificarlo y compartirlo libremente, dando el crédito correspondiente.
+Este proyecto está bajo licencia MIT. Puedes usarlo, modificarlo y compartirlo libremente, siempre dando el crédito correspondiente.
 
-Contribuir
-¿Tienes ideas o mejoras? Puedes abrir un issue o hacer un fork y enviarnos un pull request. ¡Toda contribución es bienvenida!
+Contribuciones
+¿Tienes sugerencias o quieres colaborar? Abre un issue o haz un fork y envía un pull request. ¡Toda contribución es bienvenida!
 
 Autor
-Desarrollado por RubenVC-dev
+RubenVC-dev
 GitHub: https://github.com/RubenVC-dev

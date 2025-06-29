@@ -1,39 +1,79 @@
-from datos import servicios
+from modelos import Servicio
+from utils import pedir_float, pedir_int, limpiar_pantalla
 
-def añadir_servicio():
-    nombre_servicio = input("\nNombre del servicio: ").strip()
-    try:
-        precio_venta = float(input(f"Precio del servicio '{nombre_servicio}': € "))
+class GestorServicios:
+    def __init__(self):
+        self.servicios = []
+
+    def añadir_servicio(self):
+        limpiar_pantalla()
+        print("\n=== Añadir nuevo servicio ===")
+        nombre = input("Nombre del servicio: ").strip()
+
         materiales = []
-
-        print(f"Introduce los materiales usados en '{nombre_servicio}':")
+        print("Introduce los materiales usados para este servicio:")
         while True:
-            nombre_mat = input("  - Nombre del material (o Enter para terminar): ").strip()
-            if nombre_mat == "":
+            mat_nombre = input("Nombre del material (Enter para terminar): ").strip()
+            if not mat_nombre:
                 break
-            precio_total = float(input(f"    Precio del producto '{nombre_mat}': € "))
-            usos = int(input(f"    ¿Cuántos servicios puedes hacer con '{nombre_mat}'?: "))
-            costo_unitario = precio_total / usos
-            materiales.append((nombre_mat, precio_total, usos, costo_unitario))
 
-        costo_materiales = sum(m[3] for m in materiales)
+            coste_total = pedir_float(f"Precio total del producto '{mat_nombre}': ")
+            servicio_por_producto = pedir_int(f"¿Cuántos servicios se pueden hacer con '{mat_nombre}'?: ")
+            coste_por_servicio = coste_total / servicio_por_producto
+            materiales.append((mat_nombre, coste_por_servicio, 1))
 
-        servicios.append({
-            "nombre": nombre_servicio,
-            "precio": precio_venta,
-            "materiales": materiales,
-            "costo_materiales": costo_materiales
-        })
+        precio_venta = pedir_float("Precio de venta del servicio: ")
 
-        print(f"Servicio '{nombre_servicio}' añadido correctamente.")
+        nuevo_servicio = Servicio(nombre, materiales, precio_venta)
+        self.servicios.append(nuevo_servicio)
+        print(f"Servicio '{nombre}' añadido correctamente.")
 
-    except ValueError:
-        print("Entrada no válida. Intenta de nuevo.")
+    def listar_servicios(self):
+        if not self.servicios:
+            print("No hay servicios registrados.")
+            return
+        for idx, servicio in enumerate(self.servicios, 1):
+            print(f"\nServicio #{idx}")
+            servicio.mostrar_detalles()
 
-def ver_servicios():
-    if not servicios:
-        print("\nNo hay servicios registrados todavía.")
-    else:
-        print("\n--- Servicios Registrados ---")
-        for s in servicios:
-            print(f"- {s['nombre']} | Precio: {s['precio']} € | Coste materiales: {s['costo_materiales']:.2f} €")
+    def modificar_servicio(self):
+        if not self.servicios:
+            print("No hay servicios para modificar.")
+            return
+
+        self.listar_servicios()
+        idx = pedir_int("\nNúmero del servicio a modificar: ")
+        if idx < 1 or idx > len(self.servicios):
+            print("Número inválido.")
+            return
+
+        servicio = self.servicios[idx - 1]
+        limpiar_pantalla()
+        print(f"Modificando servicio '{servicio.nombre}'")
+
+        nuevo_nombre = input(f"Nuevo nombre (Enter para mantener '{servicio.nombre}'): ").strip()
+        if nuevo_nombre:
+            servicio.nombre = nuevo_nombre
+
+        print("Modificando materiales:")
+        materiales = []
+        while True:
+            mat_nombre = input("Nombre del material (Enter para terminar): ").strip()
+            if not mat_nombre:
+                break
+            coste_total = pedir_float(f"Precio total del producto '{mat_nombre}': ")
+            servicios_por_producto = pedir_int(f"¿Cuántos servicios se pueden hacer con '{mat_nombre}'?: ")
+            coste_por_servicio = coste_total / servicios_por_producto
+            materiales.append((mat_nombre, coste_por_servicio, 1))
+
+        if materiales:
+            servicio.materiales = materiales
+
+        precio_venta_str = input(f"Nuevo precio de venta (Enter para mantener {servicio.precio_venta}): ").strip()
+        if precio_venta_str:
+            try:
+                servicio.precio_venta = float(precio_venta_str)
+            except ValueError:
+                print("Precio no válido, se mantiene el anterior.")
+
+        print("Servicio modificado correctamente.")
